@@ -4,6 +4,8 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
+user_ = XYZ
+
 getheaders={
 
     "upgrade-insecure-requests": "1",
@@ -18,7 +20,7 @@ for i in range(1,40):
     tagx=''
     if i>1:
         tagx='page=' + str(i) + '&'
-    url = 'https://lichess.org/@/Julito90/search?' + tagx + 'players.a=julito90&sort.order=desc'
+    url = 'https://lichess.org/@/' + user_ + '/search?' + tagx + 'players.a=' + user_ + '&sort.order=desc'
     url = requests.get(url, headers = getheaders)
     url1=url.text
     ##print(url)
@@ -33,7 +35,7 @@ for i in range(1,40):
         h, [*d]= ['Apertura', 'Tipo', 'B/N','W/L/S','Resultado', 'Link', 'Movimientos'],[[
             b.find('div', {'class': 'opening'}).strong.text,
             b.find('div', {'class': 'header__text'}).strong.text.split(" ", 1)[0],
-            b.find('a', {'href': '/@/Julito90'}).parent['class'][1],
+            b.find('a', {'href': '/@/' + user_}).parent['class'][1],
             b.find('div', {'class': 'result'}).span.attrs,
             b.find('div', {'class': 'result'}).span.text.split(" •", 1)[0],
             '<a href="' + 'http://lichess.org' + b.find('a', {'class': 'game-row__overlay'})['href'][:9] + '">///</a>',
@@ -43,7 +45,7 @@ for i in range(1,40):
     else:
         [*dx]=[[b.find('div', {'class': 'opening'}).strong.text,
             b.find('div', {'class': 'header__text'}).strong.text.split(" ", 1)[0],
-            b.find('a', {'href': '/@/Julito90'}).parent['class'][1],
+            b.find('a', {'href': '/@/' + user_}).parent['class'][1],
             b.find('div', {'class': 'result'}).span.attrs,
             b.find('div', {'class': 'result'}).span.text.split(" •", 1)[0],
             '<a href="' + 'http://lichess.org' + b.find('a', {'class': 'game-row__overlay'})['href'][:9] + '">///</a>',
